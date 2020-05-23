@@ -2,9 +2,12 @@ package com.learn.spring.recipeapp.services;
 
 import com.learn.spring.recipeapp.models.Recipe;
 import com.learn.spring.recipeapp.repositories.RecipeRepository;
+import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashSet;
 import java.util.Set;
 
+@Slf4j
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
@@ -15,6 +18,9 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Set<Recipe> getAllRecipes() {
-        return (Set<Recipe>) recipeRepository.findAll();
+        Set<Recipe> recipes = new HashSet<>();
+        recipeRepository.findAll().forEach(recipes::add);
+        log.debug(recipes.toString());
+        return recipes;
     }
 }
