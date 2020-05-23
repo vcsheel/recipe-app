@@ -10,3 +10,5 @@ insert into unit_of_measure (description) values  ('tablespoon');
 insert into unit_of_measure (description) values  ('teaspoon');
 insert into unit_of_measure (description) values  ('glass');
 insert into unit_of_measure (description) values  ('cup');
+insert into unit_of_measure (description) values  ('gram');
+insert into unit_of_measure (description) values  ('inch');
