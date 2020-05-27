@@ -67,4 +67,25 @@ class RecipeServiceImplTest {
         verify(recipeRepository, never()).findAll();
         verify(recipeRepository, times(1)).findById(anyLong());
     }
+
+    @Test
+    void findRecipeCommandById() {
+        Recipe recipe = new Recipe();
+        final Long id = 1L;
+        recipe.setId(id);
+
+        when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
+
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(id);
+
+        when(recipeToRecipeCommand.convert(any())).thenReturn(recipeCommand);
+
+        RecipeCommand returnedRecipe = recipeService.findCommandById(id);
+
+        assertNotNull(returnedRecipe);
+
+        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, never()).findAll();
+    }
 }
