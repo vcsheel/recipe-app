@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Upload</title>
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/4.5.0/css/bootstrap.min.css}">
+
+    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- JS, Popper.js, and jQuery -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"
+            th:src="@{/webjars/bootstrap/4.5.0/js/bootstrap.min.js}"></script>
+</head>
+<body class="bg-secondary text-white">
+
+<div class="container-fluid" style="margin-top: 20px">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="card bg-dark">
+                <div class="card-header bg-primary">
+                    <h4 class="card-title">Upload a new recipe image</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <form action="http:\\localhost" method="post" enctype="multipart/form-data"
+                                   th:action="@{'/recipe/' + ${recipe.getId()} + '/image'}">
+                                <label class="control-label">Select File</label>
+                                <input id="imagefile" name="imagefile" type="file" class="file">
+                                <button type="submit" class="btn btn-primary my-2">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
