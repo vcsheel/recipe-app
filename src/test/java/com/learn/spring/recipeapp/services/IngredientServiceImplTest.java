@@ -1,18 +1,17 @@
 package com.learn.spring.recipeapp.services;
 
 import com.learn.spring.recipeapp.commands.IngredientCommand;
+import com.learn.spring.recipeapp.converters.IngredientCommandToIngredient;
 import com.learn.spring.recipeapp.converters.IngredientToIngredientCommand;
 import com.learn.spring.recipeapp.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import com.learn.spring.recipeapp.models.Ingredient;
 import com.learn.spring.recipeapp.models.Recipe;
 import com.learn.spring.recipeapp.repositories.RecipeRepository;
+import com.learn.spring.recipeapp.repositories.UnitOfMeasureRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
@@ -29,10 +28,14 @@ class IngredientServiceImplTest {
 
     IngredientService ingredientService;
 
+    UnitOfMeasureRepository uomRepository;
+
+    IngredientCommandToIngredient ingredientCommandToIngredient;
+
     public IngredientServiceImplTest() {
         MockitoAnnotations.initMocks(this);
         this.ingredientToIngredientCommand = new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
-        ingredientService = new IngredientServiceImpl(ingredientToIngredientCommand, recipeRepository);
+        ingredientService = new IngredientServiceImpl(ingredientToIngredientCommand, ingredientCommandToIngredient, recipeRepository, uomRepository);
     }
 
     @BeforeEach
