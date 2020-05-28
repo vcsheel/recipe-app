@@ -22,7 +22,9 @@ public class IngredientServiceImpl implements IngredientService {
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository uomRepository;
 
-    public IngredientServiceImpl(IngredientToIngredientCommand ingredientToIngredientCommand, IngredientCommandToIngredient ingredientCommandToIngredient, RecipeRepository recipeRepository, UnitOfMeasureRepository uomRepository) {
+    public IngredientServiceImpl(IngredientToIngredientCommand ingredientToIngredientCommand,
+                                 IngredientCommandToIngredient ingredientCommandToIngredient,
+                                 RecipeRepository recipeRepository, UnitOfMeasureRepository uomRepository) {
         this.ingredientToIngredientCommand = ingredientToIngredientCommand;
         this.ingredientCommandToIngredient = ingredientCommandToIngredient;
         this.recipeRepository = recipeRepository;
@@ -102,6 +104,36 @@ public class IngredientServiceImpl implements IngredientService {
             }
 
             return ingredientToIngredientCommand.convert(savedIngredientOptional.get());
+        }
+    }
+
+
+    @Override
+    public void deleteIngredient(Long recipeId, Long ingredientId) {
+
+        Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+
+        if(!recipeOptional.isPresent()) {
+            log.error("Couldn't find recipe with id: "+recipeId);
+        }
+        else {
+
+            Recipe recipe = recipeOptional.get();
+
+            Optional<Ingredient> ingredientOptional = recipe.getIngredients().stream()
+                    .filter(ingredient1 -> ingredient1.getId().equals(ingredientId))
+                    .findFirst();
+
+            if(!ingredientOptional.isPresent()) {
+                log.error("Ingredient to delete not found with id: "+ingredientId);
+            }
+            else {
+                Ingredient ingredient = ingredientOptional.get();
+                ingredient.setRecipe(null);
+                recipe.getIngredients().remove(ingredient);
+                recipeRepository.save(recipe);
+                log.info("Ingredient id : "+ingredientId + " deleted");
+            }
         }
     }
 }
