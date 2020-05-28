@@ -24,7 +24,16 @@
 
             <div class="card text-center border-primary bg-dark text-white">
                 <div class="card-header text-white bg-primary">
-                    Ingredients
+                    <div class="row">
+                        <div class="col justify-content-lg-start">
+                            <div class="card-title">
+                                <h4>Ingredients</h4>
+                            </div>
+                        </div>
+                        <div class="col d-flex justify-content-lg-end">
+                            <a class="btn text-white" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/new'}" role="button">Add New</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive" th:if="${not #lists.isEmpty(recipe.ingredients)}">
