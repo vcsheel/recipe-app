@@ -37,7 +37,7 @@ class IngredientControllerTest {
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).setControllerAdvice(ControllerExceptionHandler.class).build();
     }
 
     @Test
@@ -67,4 +67,14 @@ class IngredientControllerTest {
                 .andExpect(view().name("recipe/ingredient/show"))
                 .andExpect(model().attributeExists("ingredient"));
     }
+
+    @Test
+    void handleNumberFormatException () throws Exception {
+
+        mockMvc.perform(get("/recipe/a/ingredients"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("errorpage"));
+
+    }
+
 }
