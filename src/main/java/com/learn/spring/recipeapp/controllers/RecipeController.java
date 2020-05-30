@@ -1,11 +1,16 @@
 package com.learn.spring.recipeapp.controllers;
 
 import com.learn.spring.recipeapp.commands.RecipeCommand;
+import com.learn.spring.recipeapp.exceptions.NotFoundException;
 import com.learn.spring.recipeapp.services.RecipeService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+@Slf4j
 @Controller
 public class RecipeController {
 
@@ -45,5 +50,31 @@ public class RecipeController {
     public String deleteRecipe(@PathVariable String id) {
         recipeService.deleteById(new Long(id));
         return "redirect:/index";
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView handleNotFound (Exception exception) {
+        log.error("........Handle not found exception.....");
+        log.error(exception.getMessage());
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("code", HttpStatus.NOT_FOUND.value());
+        mav.addObject("reason", HttpStatus.NOT_FOUND.getReasonPhrase());
+        mav.addObject("exception", exception);
+        mav.setViewName("errorpage");
+        return mav;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NumberFormatException.class)
+    public ModelAndView handleNumberFormatException (Exception exception) {
+        log.error("........Handle bad request exception.....");
+        log.error(exception.getMessage());
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("code", HttpStatus.BAD_REQUEST.value());
+        mav.addObject("reason", HttpStatus.BAD_REQUEST.getReasonPhrase());
+        mav.addObject("exception", exception);
+        mav.setViewName("errorpage");
+        return mav;
     }
 }

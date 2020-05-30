@@ -3,8 +3,10 @@ package com.learn.spring.recipeapp.services;
 import com.learn.spring.recipeapp.commands.RecipeCommand;
 import com.learn.spring.recipeapp.converters.RecipeCommandToRecipe;
 import com.learn.spring.recipeapp.converters.RecipeToRecipeCommand;
+import com.learn.spring.recipeapp.exceptions.NotFoundException;
 import com.learn.spring.recipeapp.models.Recipe;
 import com.learn.spring.recipeapp.repositories.RecipeRepository;
+import org.aspectj.weaver.ast.Not;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -95,5 +97,12 @@ class RecipeServiceImplTest {
         recipeService.deleteById(id);
 
         verify(recipeRepository, times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    void recipeNotFoundById () {
+
+        when(recipeRepository.findById(anyLong())).thenReturn(Optional.empty());
+        assertThrows(NotFoundException.class, ()->recipeService.findById(1L));
     }
 }
