@@ -8,8 +8,8 @@ CREATE DATABASE recipe_dev;
 CREATE DATABASE recipe_prod;
 
 # Create database service accounts
-CREATE USER 'recipe_dev_user'@'localhost' IDENTIFIED BY "password";
-CREATE USER 'recipe_prod_user'@'localhost' IDENTIFIED BY "password";
+CREATE USER 'recipe_dev_user'@'localhost' IDENTIFIED BY 'password';
+CREATE USER 'recipe_prod_user'@'localhost' IDENTIFIED BY 'password';
 CREATE USER 'recipe_dev_user'@'%' IDENTIFIED BY "password";
 CREATE USER 'recipe_prod_user'@'%' IDENTIFIED BY "password";
 
